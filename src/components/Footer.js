@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import fb from '../images/fb.png'
+import {BsLinkedin, BsFacebook,BsGoogle, BsTwitter } from 'react-icons/bs';
 
 export default function Footer() {
   return (
@@ -12,24 +15,29 @@ export default function Footer() {
                     <div class="social-icons pb-md-0 pb-4">
                         <ul class="social-iconsv2 agileinfo">
                             <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
+                                <Link href="#">
+                                  <BsFacebook className='react-icons'/>
+                                    
+                                    
+                                </Link>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
+                                <Link href="#">
+                                    
+                                    <BsTwitter className='react-icons'/>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fab fa-google-plus-g"></i>
-                                </a>
+                                <Link href="#">
+                                    
+                                    <BsGoogle className='react-icons'/>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
+                                <Link href="#">
+                                    
+                                    <BsLinkedin class='react-icons' />
+                                </Link>
                             </li>
                         </ul>
                     </div>

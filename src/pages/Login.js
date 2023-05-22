@@ -20,7 +20,7 @@ export default function Login() {
         e.preventDefault();
         const login = auth_service.logindata(userpass.username,userpass.password);
         // console.log(login);
-		// localStorage.setItem('user',login);
+		localStorage.setItem('user',login);
     
 	}
 

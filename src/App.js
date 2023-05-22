@@ -1,9 +1,7 @@
 
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import './App.css';
 import { Route,Routes,BrowserRouter } from 'react-router-dom';
-import Main from './pages/Main';
+
 import Layout from './components/Layout';
 import Index from './pages/Index';
 import Service from './pages/Service';
@@ -14,10 +12,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout/>}>
-        <Route index element={<Login/>}/>
-        <Route path='signup' element={<Signup/>}/>
-        <Route path='main' element={<Main/>}/>
-        <Route path='index' element={<Index/>}/>
+        <Route index element={<Index/>}/>
+        {/* <Route path='signup' element={<Signup/>}/> */}
+        {/* <Route path='main' element={<Main/>}/> */}
+        {/* <Route path='index' element={<Index/>}/> */}
         <Route path='service' element={<Service/>}/>
         </Route>
       </Routes>

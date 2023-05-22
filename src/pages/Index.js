@@ -1,15 +1,76 @@
 import React from 'react'
-
+import cycle from '../images/i1.png';
+import { useState } from 'react';
+import auth_service from '../service/auth_service'
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 export default function Index() {
-    // const handleclick = () =>
-    // {
-    //     window.onload = function () {
-    //         document.getElementById("password1").onchange = validatePassword;
-    //         document.getElementById("password2").onchange = validatePassword;
-    //     }
-    // } 
+
+   const navigate = useNavigate();
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [userpass, setuserpass] = useState({
+        username:"",
+        email:"",
+        password:"",
+        confirmpassword:""
+    })
+
+    const {username,email,password,confirmpassword}= userpass;
+
+   
+    const onInputChange= (e)=>{
+    setuserpass({...userpass,[e.target.name]:e.target.value})
+    //  console.log(userpass)
+    }
+
+
+    const onSubmit = async (e)=>{
+        e.preventDefault();
+       // const userpass = auth_service.logindata();
+        const signup = auth_service.signupdata(userpass.username,userpass.email,userpass.password);
+        
+		
+    }
+
+
+    const [userpasslogin, setuserpasslogin] = useState({
+        usernamelogin:"",
+        passwordlogin:""
+    });
+
+    const {usernamelogin,passwordlogin}= userpasslogin;
+    const onInputChangelogin= (e)=>{
+    setuserpasslogin({...userpasslogin,[e.target.name]:e.target.value})
+    console.log(userpasslogin);
+    // setLoggedIn(true);
+    //  history.push('/service');
+    }
+
+    const onSubmitlogin = async (e)=>{
+        e.preventDefault();
+        const login = auth_service.logindata(userpasslogin.usernamelogin,userpasslogin.passwordlogin);
+        // console.log(userpasslogin.usernamelogin);
+        // localStorage.setItem('user',JSON.parse(login));
+        setuserpasslogin({
+            usernamelogin:"",
+            passwordlogin:""
+        });
+        // setLoggedIn(true);
+        navigate("/service");
+      
+        // if(login.data === 'User login Successfully')
+        // {
+        //     console.log(userpasslogin.usernamelogin);
+        //     // localStorage.setItem("user",userpasslogin.usernamelogin)
+        // }
+        // else{
+        //     console.log("false")
+        // }
+		
+    
+	}
+
   return (
     <>
      <div class="home">
@@ -30,7 +91,7 @@ export default function Index() {
         </div>
         {/* <!-- register --> */}
         <div class="w3-register py-4  position-relative" id="register">
-            <img class="position-absolute img-fluid agile-img" src="images/i1.png" alt="" />
+            <img class="position-absolute img-fluid agile-img" src={cycle} alt="" />
             <div class="container py-lg-5">
                 <div class="row register-form py-md-5">
                     <div class="offset-lg-2"></div>
@@ -46,7 +107,7 @@ export default function Index() {
                         </div>
                         {/* <!-- register form grid --> */}
                         <div class="register-top1">
-                            <form action="#" method="get" class="register-wthree">
+                            <form  onSubmit={(e)=>onSubmit(e)} method="get" class="register-wthree">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-1 d-md-flex align-items-end justify-content-end px-md-0">
@@ -58,7 +119,7 @@ export default function Index() {
                                             <label>
                                                 UserName
                                             </label>
-                                            <input class="form-control" type="text" placeholder="Johnson" name="email" required=""/>
+                                            <input class="form-control" type="text" placeholder="Username" name="username" required=""value={username} onChange={(e)=>onInputChange(e)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +134,7 @@ export default function Index() {
                                             <label>
                                                 Email
                                             </label>
-                                            <input class="form-control" type="email" placeholder="example@email.com" name="email" required=""/>
+                                            <input class="form-control" type="email" placeholder="email" name="email" required="" value={email} onChange={(e)=>onInputChange(e)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +149,7 @@ export default function Index() {
                                             <label>
                                                 password
                                             </label>
-                                            <input type="password" class="form-control" placeholder="*******" name="Password" id="password1" required=""/>
+                                            <input type="password" class="form-control" placeholder="Password" name="password"  required="" value={password} onChange={(e)=>onInputChange(e)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +164,9 @@ export default function Index() {
                                             <label>
                                                 confirm password
                                             </label>
-                                            <input type="password" class="form-control" placeholder="*******" name="Password" id="password2" required=""/>
+                                            {/* <input type="password" class="form-control" placeholder="Confirm Password" name="comfirmpassword"  required="" value={confirmpassword} onChange={(e)=>onInputChange(e)}/> */}
+                                            <input type="password" className='form-control' name="confirmpassword" placeholder="Confirm Password" required="" value={confirmpassword} onChange={(e)=>onInputChange(e)} />
+
                                         </div>
                                     </div>
                                 </div>
@@ -127,50 +190,52 @@ export default function Index() {
         {/* <!-- //footer --> */}
     </div>
     {/* <!-- login  --> */}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {/* <button type="button" className="btn  ml-lg-2 w3ls-btn" data-bs-toggle="modal"  aria-pressed="false" data-bs-target="#exampleModal">
+                                    Login
+                                </button> */}
+    <div class="modal fade" id="exampleModal" tabindex="-1"  data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post">
+                    <form onSubmit={(e)=>onSubmitlogin(e)}  method="post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Username</label>
-                            <input type="text" class="form-control" placeholder=" " name="Name" id="recipient-name" required=""/>
+                            <input type="text" class="form-control" placeholder="Username" name="usernamelogin" id="recipient-name" required value={usernamelogin} onChange={(e)=>onInputChangelogin(e)} />
                         </div>
                         <div class="form-group">
                             <label for="password" class="col-form-label">Password</label>
-                            <input type="password" class="form-control" placeholder=" " name="Password" id="password" required=""/>
+                            <input type="password" class="form-control" placeholder=" " name="passwordlogin" id="password" required  value={passwordlogin} onChange={(e)=>onInputChangelogin(e)}/>
                         </div>
                         <div class="right-w3l">
-                            <input type="submit" class="form-control" value="Login"/>
+                        <div data-bs-dismiss="modal">
+                            <input  type="submit"  class="form-control" value="Login"/>
                         </div>
-                        <div class="row sub-w3l my-3">
-                            <div class="col sub-agile">
-                                <input type="checkbox" id="brand1" value=""/>
-                                <label for="brand1" class="text-secondary">
-                                    <span></span>Remember me?</label>
-                            </div>
-                            <div class="col forgot-w3l text-right">
-                                <a href="#" class="text-secondary">Forgot Password?</a>
-                            </div>
                         </div>
+                       
                         <p class="text-center dont-do">Don't have an account?
+                     
                             <a href="#register" class="scroll text-dark font-weight-bold">
-                                Register Now</a>
+                                <div data-bs-dismiss="modal">Register Now</div>
+                                </a>
+                                
                         </p>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     {/* <!-- //login -->
     <!-- js --> */}
-    <script src="js/jquery-2.2.3.min.js"></script>
+
+    
+    {/* <script src="js/jquery-2.2.3.min.js"></script> */}
     {/* <!-- //js -->
     <!-- script for password match --> */}
     {/* <script>
@@ -193,7 +258,7 @@ export default function Index() {
    
     {/* <!-- script for password match -->
     <!-- testimonials  Responsiveslides --> */}
-    <script src="js/responsiveslides.min.js"></script>
+    {/* <script src="js/responsiveslides.min.js"></script> */}
     {/* <script> */}
          {/* You can also use"$(window).load(function() {" */}
         {/* $(function () {
@@ -216,8 +281,8 @@ export default function Index() {
     </script> */}
     {/* <!-- //testimonials  Responsiveslides -->
     <!-- start-smooth-scrolling --> */}
-    <script src="js/move-top.js"></script>
-    <script src="js/easing.js"></script>
+    {/* <script src="js/move-top.js"></script>
+    <script src="js/easing.js"></script> */}
     {/* <script>
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
@@ -254,7 +319,7 @@ export default function Index() {
     <!-- Bootstrap core JavaScript
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster --> */}
-     <script src="js/bootstrap.js"></script>
+     {/* <script src="js/bootstrap.js"></script> */}
     </>
   )
 }

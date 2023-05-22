@@ -1,6 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 
+import chicken from '../images/chicken.jpeg'
+import cycle from '../images/i1.png'
+import auth_service from '../service/auth_service';
 export default function Service() {
+const [fooddata, setfooddata]= useState('');
+
+const radioOptionChange = (e) => {
+    setfooddata(e.target.value);
+    // console.log(fooddata)
+}
+
+ const onSubmit = async (e)=>{
+    
+    // console.log(fooddata)
+    // const username = localStorage.getItem('user');
+    const username = localStorage.getItem("user")
+    console.log("+++++++"+username)
+    const enroll = auth_service.getdata(username, fooddata);
+
+ }
+
+
+
   return (
     <>
         <div class="home">
@@ -20,7 +42,7 @@ export default function Service() {
         </div>
         {/* <!-- register --> */}
         <div class="w3-register py-4  position-relative" id="register">
-            <img class="position-absolute img-fluid agile-img" src="images/i1.png" alt="" />
+            <img class="position-absolute img-fluid agile-img" src={cycle} alt="" />
             <div class="container py-lg-5">
                 <div class="row register-form py-md-5">
                     <div class="offset-lg-2"></div>
@@ -35,21 +57,21 @@ export default function Service() {
                             <span></span>
                         </div>
                         <div class="form-check">
-                            <img  src="images/chicken.jpeg"  alt="chicken" />
+                            <img  src={chicken}  alt="chicken" />
                             <hr/>
-                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                          <input class="form-check-input" type="radio" name="flexRadioDefault"id="flexRadioDefault1" value={"Veg"} checked={fooddata === 'Veg'} onChange={radioOptionChange} />
                           <label class="form-check-label" for="flexRadioDefault1">
                             Veg
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked/>
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"   value={"Non-Veg"} checked={fooddata === 'Non-Veg'} onChange={radioOptionChange}/>
                           <label class="form-check-label" for="flexRadioDefault2">
-                            non-Veg
+                            Non-Veg
                           </label>
                         </div>
                         <br/>
-                        <button type="button" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-success" onClick={(e)=>onSubmit(e)}>Submit</button>
                     </div>
 
                 </div>
@@ -62,7 +84,7 @@ export default function Service() {
         {/* <!-- //footer --> */}
     </div>
     {/* <!-- login  --> */}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {/* <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -91,7 +113,7 @@ export default function Service() {
                                     <span></span>Remember me?</label>
                             </div>
                             <div class="col forgot-w3l text-right">
-                                <a href="#" class="text-secondary">Forgot Password?</a>
+                                <Link href="#" class="text-secondary">Forgot Password?</Link>
                             </div>
                         </div>
                         <p class="text-center dont-do">Don't have an account?
@@ -102,7 +124,7 @@ export default function Service() {
                 </div>
             </div>
         </div>
-    </div>
+    </div> */}
     {/* <!-- //login -->
     <!-- js -->
     <script src="js/jquery-2.2.3.min.js"></script>

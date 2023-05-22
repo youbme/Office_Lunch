@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import auth_service from '../service/auth_service';
-import axios from 'axios';
+
 
 export default function Signup() {
 

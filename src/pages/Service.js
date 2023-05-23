@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import chicken from '../images/chicken.jpeg'
 import cycle from '../images/i1.png'
 import auth_service from '../service/auth_service';
+import axios from 'axios';
+import auth_header from '../service/auth_header';
+
 export default function Service() {
 const [fooddata, setfooddata]= useState('');
 
@@ -13,11 +16,30 @@ const radioOptionChange = (e) => {
 
  const onSubmit = async (e)=>{
     
-    // console.log(fooddata)
-    // const username = localStorage.getItem('user');
-    const username = localStorage.getItem("user")
-    console.log("+++++++"+username)
-    const enroll = auth_service.getdata(username, fooddata);
+  
+    console.log(fooddata);
+   const usern = localStorage.getItem("username");
+   console.log(usern)
+   const token = localStorage.getItem("user");
+   console.log(token)
+//    auth_service.postdata(usern,fooddata,token);
+    await axios.post("http://localhost:2000/officeLunch/employees/enroll",{
+        username:usern,
+        foodPref:fooddata
+    },{headers: {
+        Authorization: 'Bearer '+token
+    }
+    })
+    .then(response=>{
+       
+        alert("Succesfully Submmited");
+        console.log(response.data);
+        // localStorage.setItem("user",response.data);
+        return JSON.stringify(response.data)
+    }).catch(error=>{
+        alert("Failed to submit");
+        console.log(error);
+    });
 
  }
 

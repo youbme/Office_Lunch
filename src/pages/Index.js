@@ -2,13 +2,13 @@ import React from 'react'
 import cycle from '../images/i1.png';
 import { useState } from 'react';
 import auth_service from '../service/auth_service'
-import { NavLink, useNavigate } from 'react-router-dom';
-
+import {  useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Index() {
 
    const navigate = useNavigate();
-    const [isLoggedIn, setLoggedIn] = useState(false);
+
     const [userpass, setuserpass] = useState({
         username:"",
         email:"",
@@ -27,9 +27,21 @@ export default function Index() {
 
     const onSubmit = async (e)=>{
         e.preventDefault();
-       // const userpass = auth_service.logindata();
-        const signup = auth_service.signupdata(userpass.username,userpass.email,userpass.password);
         
+       // const userpass = auth_service.logindata();
+    //    auth_service.signupdata(userpass.username,userpass.email,userpass.password);
+        await axios.post("http://localhost:2000/officeLunch/employees/register",{
+            username,
+            email,
+            password})
+            .then(response=>{
+                alert("Succesfully Registered")
+                console.log(response.data)
+            })
+            .catch(error=>{
+                alert("Failed to Register")
+                console.log(error)
+            })
 		
     }
 
@@ -43,15 +55,15 @@ export default function Index() {
     const onInputChangelogin= (e)=>{
     setuserpasslogin({...userpasslogin,[e.target.name]:e.target.value})
     console.log(userpasslogin);
-    // setLoggedIn(true);
-    //  history.push('/service');
+
     }
 
     const onSubmitlogin = async (e)=>{
         e.preventDefault();
+        
         const login = auth_service.logindata(userpasslogin.usernamelogin,userpasslogin.passwordlogin);
-        // console.log(userpasslogin.usernamelogin);
-        // localStorage.setItem('user',JSON.parse(login));
+        console.log(userpasslogin.usernamelogin);
+
         setuserpasslogin({
             usernamelogin:"",
             passwordlogin:""
@@ -59,21 +71,14 @@ export default function Index() {
         // setLoggedIn(true);
         navigate("/service");
       
-        // if(login.data === 'User login Successfully')
-        // {
-        //     console.log(userpasslogin.usernamelogin);
-        //     // localStorage.setItem("user",userpasslogin.usernamelogin)
-        // }
-        // else{
-        //     console.log("false")
-        // }
-		
+      
     
 	}
 
   return (
     <>
      <div class="home">
+    
         {/* <!-- banner --> */}
         <div class="banner" id="banner">
             {/* <!-- header --> */}
